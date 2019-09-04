@@ -13,6 +13,13 @@ import java.util.Random;
  * @Date: 2019/7/16 9:42
  * @Description:
  */
+
+/**
+ * @WarmUp(time = 10)
+ *      -->  预热进行的次数
+ * @Measurement(iterations = 10, group = 3)
+ *     -->   待测试程序进行3组测试，每组执行10次
+ */
 @WarmUp(time = 10)
 @Measurement(iterations = 10, group = 3)
 public class SortCase implements Case {
@@ -182,7 +189,7 @@ public class SortCase implements Case {
         System.arraycopy(extra,0,a,low,length);
     }
 
-    @Benchmark
+   // @Benchmark
     public void testQuickOne() {
         int[] a = new int[100000];
         Random random = new Random(20190716);
@@ -193,7 +200,7 @@ public class SortCase implements Case {
     }
     @Benchmark
     public void testQuickTwo() {
-        int[] a = new int[100000];
+        int[] a = new int[1000000];
         Random random = new Random(20190716);
         for (int i = 0; i < a.length; i++) {
             a[i] = random.nextInt(10000);
@@ -202,7 +209,7 @@ public class SortCase implements Case {
     }
     @Benchmark
     public void testQuickThree() {
-        int[] a = new int[100000];
+        int[] a = new int[1000000];
         Random random = new Random(20190716);
         for (int i = 0; i < a.length; i++) {
             a[i] = random.nextInt(10000);
@@ -211,16 +218,16 @@ public class SortCase implements Case {
     }
     @Benchmark
     public void testMergeSort() {
-        int[] a = new int[100000];
+        int[] a = new int[1000000];
         Random random = new Random(20190716);
         for (int i = 0; i < a.length; i++) {
             a[i] = random.nextInt(10000);
         }
         mergeSort(a);
     }
-    @Benchmark
+   // @Benchmark
     public void testArraysSort() {
-        int[] a = new int[100000];
+        int[] a = new int[1000000];
         Random random = new Random(20190716);
         for (int i = 0; i < a.length; i++) {
             a[i] = random.nextInt(10000);

@@ -10,9 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author: Beer
@@ -21,14 +19,17 @@ import java.util.List;
  */
 
 class CaseRunner {
-    private static final int DEFAULT_ITERATIONS = 10;
+    private static final int DEFAULT_ITERATIONS = 10;//默认的执行次数
     private static final int DEFAULT_GROUP = 5;
     private static final int DEFAULT_TIME = 5;
     private final List<Case> caseList;
+    public static HashMap<String,Long> map =  new HashMap<String, Long>();
 
     public CaseRunner(List<Case> caseList) {
         this.caseList = caseList;
     }
+
+
 
     public void run() throws InvocationTargetException, IllegalAccessException {
         for (Case benchCase : caseList) {
@@ -89,13 +90,15 @@ class CaseRunner {
     }
 
     private void runCase(Case benchCase, Method method, int iterations, int group) throws InvocationTargetException, IllegalAccessException {
-        System.out.println(method.getName()+"：共测试"+group+"组，每组执行"+iterations+"次");
+       // System.out.println(method.getName()+"：共测试"+group+"组，每组执行"+iterations+"次");
         for (int i = 0; i < group; i++) {
             long t1 = System.nanoTime();
             for (int j = 0; j < iterations; j++) {
                 method.invoke(benchCase);
             }
             long t2 = System.nanoTime();
+            long t = (t2-t1) / (iterations*1000000);
+            map.put(method.getName()+"第"+(i+1)+"组",t);
             System.out.println("第" + (i + 1) + "组试验耗时：" + (t2 - t1) + "纳秒");
         }
     }
@@ -153,4 +156,6 @@ public class CaseLoader {
 
         return new CaseRunner(caseList);
     }
+
+
 }
